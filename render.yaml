@@ -16,7 +16,7 @@ services:
         value: 3.11.9
 
   # 2. Frontend Static React Site
-  - type: web
+  - type: static
     name: samsung-frontend
     runtime: static
     buildCommand: cd frontend && npm install && npm run build
