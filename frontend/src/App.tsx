@@ -12,6 +12,21 @@ interface LogEntry {
   logger: string;
 }
 
+const getBackendUrl = () => {
+  if (import.meta.env.VITE_BACKEND_URL) {
+    return import.meta.env.VITE_BACKEND_URL;
+  }
+  return `${window.location.protocol}//${window.location.hostname}:8000`;
+};
+
+const getWsUrl = () => {
+  if (import.meta.env.VITE_WS_BACKEND_URL) {
+    return import.meta.env.VITE_WS_BACKEND_URL;
+  }
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${protocol}//${window.location.hostname}:8000`;
+};
+
 export function App() {
   const [command, setCommand] = useState('');
   const [telemetry, setTelemetry] = useState<any>({});
@@ -78,7 +93,7 @@ export function App() {
       const formData = new FormData();
       formData.append('file', audioBlob, 'recording.webm');
 
-      const res = await fetch(`http://${window.location.hostname}:8000/api/speech`, {
+      const res = await fetch(`${getBackendUrl()}/api/speech`, {
         method: 'POST',
         body: formData,
       });
@@ -120,7 +135,7 @@ export function App() {
   }, []);
 
   const connectWebsocket = () => {
-    const wsUrl = `ws://${window.location.hostname}:8000/api/ws`;
+    const wsUrl = `${getWsUrl()}/api/ws`;
     console.log(`Connecting to WebSocket at ${wsUrl}`);
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
@@ -168,7 +183,7 @@ export function App() {
     setLoading(true);
     setErrorMsg('');
     try {
-      const res = await fetch(`http://${window.location.hostname}:8000/api/command`, {
+      const res = await fetch(`${getBackendUrl()}/api/command`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command: cmdText })
@@ -190,7 +205,7 @@ export function App() {
 
   const triggerCancel = async () => {
     try {
-      await fetch(`http://${window.location.hostname}:8000/api/cancel`, { method: 'POST' });
+      await fetch(`${getBackendUrl()}/api/cancel`, { method: 'POST' });
     } catch (err) {
       console.error('Cancel request failed:', err);
     }
@@ -198,7 +213,7 @@ export function App() {
 
   const triggerPause = async () => {
     try {
-      await fetch(`http://${window.location.hostname}:8000/api/pause`, { method: 'POST' });
+      await fetch(`${getBackendUrl()}/api/pause`, { method: 'POST' });
     } catch (err) {
       console.error('Pause request failed:', err);
     }
@@ -206,7 +221,7 @@ export function App() {
 
   const triggerResume = async () => {
     try {
-      await fetch(`http://${window.location.hostname}:8000/api/resume`, { method: 'POST' });
+      await fetch(`${getBackendUrl()}/api/resume`, { method: 'POST' });
     } catch (err) {
       console.error('Resume request failed:', err);
     }
