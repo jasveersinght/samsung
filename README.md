@@ -4,6 +4,10 @@ A production-quality robotics task planning framework. It takes natural language
 
 The framework supports **dynamic replanning** via LLM failure recovery. If a target object is missing (e.g. glass not found on the kitchen countertop), the system automatically queries semantic memory and LLM contexts to inject recovery steps (e.g. searching the sink and cupboard) before resuming execution.
 
+### 🌐 Live Production Link
+You can access the live deployed dashboard on Render here:  
+**[Robotics Task Planner Dashboard (Live)](https://samsung-frontend.onrender.com/)**
+
 ---
 
 ## Overall Architecture
