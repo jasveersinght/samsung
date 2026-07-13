@@ -18,9 +18,9 @@ services:
   # 2. Frontend Static React Site
   - type: web
     name: samsung-frontend
-    env: static
+    runtime: static
     buildCommand: cd frontend && npm install && npm run build
-    publishDir: frontend/dist
+    publishPath: frontend/dist
     envVars:
       - key: VITE_BACKEND_URL
         fromService:
