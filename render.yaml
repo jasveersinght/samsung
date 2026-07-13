@@ -26,4 +26,4 @@ services:
         fromService:
           name: samsung-backend
           type: web
-          property: url
+          envVarKey: RENDER_EXTERNAL_URL
