@@ -23,8 +23,8 @@ const getWsUrl = () => {
   if (import.meta.env.VITE_WS_BACKEND_URL) {
     return import.meta.env.VITE_WS_BACKEND_URL;
   }
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  return `${protocol}//${window.location.hostname}:8000`;
+  const backendUrl = getBackendUrl();
+  return backendUrl.replace(/^http/, 'ws');
 };
 
 export function App() {
